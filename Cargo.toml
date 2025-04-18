@@ -1,0 +1,21 @@
+[package]
+name = "airlinesAPI-rust"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+axum = "0.7.2"
+tokio = { version = "1.0", features = ["full"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+sqlx = { version = "0.7", features = ["runtime-tokio-rustls", "mysql", "chrono", "json"] }
+jsonwebtoken = "9.2"
+tower-http = { version = "0.5.0", features = ["cors", "trace"] }
+tracing = "0.1"
+tracing-subscriber = "0.3"
+chrono = { version = "0.4", features = ["serde"] }
+dotenv = "0.15"
+bcrypt = "0.15"
+uuid = { version = "1.6", features = ["v4", "serde"] }
+thiserror = "1.0"
+anyhow = "1.0"
