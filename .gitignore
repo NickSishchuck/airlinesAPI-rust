@@ -1,2 +1,7 @@
 /target
 Cargo.lock
+/.idea/.gitignore
+/.idea/airlinesAPI-rust.iml
+/.idea/modules.xml
+/.idea/vcs.xml
+.env
