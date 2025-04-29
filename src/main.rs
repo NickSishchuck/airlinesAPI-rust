@@ -34,7 +34,11 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     // Build our application with routes
     let app = Router::new()
         .route("/health", get(handlers::health_check::health_check))
-        .route("/route/:id", get(handlers::route_handler::get_routes))
+        .route("/routes", get(handlers::route_handler::get_routes))
+        .route(
+            "/routes/{id}",
+            get(handlers::route_handler::get_route_by_id),
+        )
         .with_state(pool);
 
     // Run it with hyper

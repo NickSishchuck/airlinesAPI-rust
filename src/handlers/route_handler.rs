@@ -91,4 +91,47 @@ pub async fn get_routes(
             ));
         }
     };
+
+    // Calculate total pages
+    let total_pages = (total as f64 / limit as f64).ceil() as i32;
+
+    // Create and return response
+    Ok(Json(PaginatedResponse {
+        success: true,
+        count: routes.len(),
+        pagination: Pagination {
+            page,
+            limit,
+            total_pages,
+            total_items: total,
+        },
+        data: routes,
+    }))
+}
+
+// Add get_route_by_id handler
+pub async fn get_route_by_id(
+    State(pool): State<MySqlPool>,
+    Path(id): Path<i32>,
+) -> Result<Json<ApiResponse<Route>>, (StatusCode, Json<serde_json::Value>)> {
+    match Route::find_by_id(&pool, id).await {
+        Ok(Some(route)) => Ok(Json(ApiResponse {
+            success: true,
+            data: route,
+        })),
+        Ok(None) => Err((
+            StatusCode::NOT_FOUND,
+            Json(serde_json::json!({
+                "success": false,
+                "error": format!("Route with id {} not found", id)
+            })),
+        )),
+        Err(e) => Err((
+            StatusCode::INTERNAL_SERVER_ERROR,
+            Json(serde_json::json!({
+                "success": false,
+                "error": format!("Database error: {}", e)
+            })),
+        )),
+    }
 }
