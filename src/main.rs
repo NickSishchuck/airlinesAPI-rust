@@ -1,13 +1,10 @@
-// src/main.rs
 mod config;
 mod db;
 mod handlers;
 mod logging;
+mod models;
 
-use axum::{
-    routing::get,
-    Router,
-};
+use axum::{routing::get, Router};
 use std::net::SocketAddr;
 use tracing::info;
 
@@ -37,6 +34,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     // Build our application with routes
     let app = Router::new()
         .route("/health", get(handlers::health_check::health_check))
+        .route("/route/:id", get(handlers::route_handler::get_routes))
         .with_state(pool);
 
     // Run it with hyper
